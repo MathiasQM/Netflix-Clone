@@ -3,8 +3,8 @@ const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 
-const productRoutes = require("./routes/products");
-const authRoutes = require("./routes/auth");
+const moviesRoute = require("./routes/movies");
+const authRoutes = require("./routes/login");
 const db = require("./db");
 
 const app = express();
@@ -20,20 +20,13 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/movies/list", (req, res) => {
-  return res.send("Hello Threre");
-});
-
-app.listen(8080, () => {
-  console.log("Now listening on 8080");
-});
+app.use("/movies", moviesRoute);
+// app.use("/auth", authRoutes);
 
 db.initDb((err, db) => {
   if (err) {
     console.log(err);
   } else {
-    app.listen(3100);
+    app.listen(8080);
   }
 });
-
-// mongodb+srv://mathiasqm:<db_password>@demo.rnx8c.mongodb.net/?retryWrites=true&w=majority&appName=demo
