@@ -4,7 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const moviesRoute = require("./routes/movies");
-const authRoutes = require("./routes/login");
+const authRoutes = require("./routes/auth");
 const db = require("./db");
 
 const app = express();
@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/movies", moviesRoute);
-// app.use("/auth", authRoutes);
+app.use("/auth", authRoutes);
 
 db.initDb((err, db) => {
   if (err) {
