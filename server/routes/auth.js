@@ -14,7 +14,7 @@ router.post(
   [
     check("email", "Please input a valid email").isEmail(),
     check("password", "Passwords must be at least 9 characters").isLength({ min: 9 }),
-    check("username", "Usernames must be at least 4 characters").isLength({ min: 4 }),
+    check("name", "Usernames must be at least 4 characters").isLength({ min: 4 }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -24,6 +24,7 @@ router.post(
         errors: errors.array(),
       });
     }
+    console.log(req.body);
 
     const { email, password, name } = req.body;
 
@@ -44,8 +45,10 @@ router.post(
       .findOneAndUpdate(
         { email },
         { $set: { email, password: hashedPassword, name } },
-        { upsert: true, returnDocument: "after", projection: { password: 0, email: 1, name: 1 } }
+        { upsert: true, returnDocument: "after", projection: { email: 1, name: 1 } }
       );
+
+    console.log(newUser);
 
     const token = await jwt.sign(newUser, process.env.JSON_WEB_TOKEN_SECRET, { expiresIn: 36000000 });
 

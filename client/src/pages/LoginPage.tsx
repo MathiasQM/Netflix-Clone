@@ -2,6 +2,7 @@ import { createContext, useState } from "react";
 import Input from "../components/Input";
 import NavBar from "../components/NavBar";
 import { useForm, SubmitHandler, UseFormRegister, FieldErrors } from "react-hook-form";
+import useAuth from "../hooks/useAuth";
 
 export type Inputs = {
   email: string;
@@ -32,9 +33,23 @@ export default function LoginPage() {
   } = useForm<Inputs>();
 
   const [variant, setVariant] = useState(Variant.LOG_IN);
-  console.log(errors);
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+  const { login, signUp } = useAuth();
+  const onSubmit: SubmitHandler<Inputs> = async ({ password, email, name }) => {
+    console.log(password, email, name);
+    if (variant === Variant.SIGN_UP) {
+      const response = await signUp({
+        email,
+        password,
+        name,
+      });
+      console.log(response);
+    } else {
+      const response = await login({
+        email,
+        password,
+      });
+      console.log(response);
+    }
   };
 
   return (
@@ -43,7 +58,7 @@ export default function LoginPage() {
       <div className="flex justify-center items-center h-full">
         <div className="bg-black/70 p-16 self-center mt-2 w-full max-w-md rounded-md">
           <h2 className="text-white text-4xl mb-8 font-semibold">
-            {variant === Variant.SIGN_UP ? "Sign in" : "Log In"}
+            {variant === Variant.SIGN_UP ? "Sign Up" : "Log In"}
           </h2>
           <AuthFormContext.Provider value={{ register, errors }}>
             <form className="flex flex-col gap-4" action="" onSubmit={handleSubmit(onSubmit)}>
