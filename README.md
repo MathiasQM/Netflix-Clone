@@ -18,8 +18,13 @@ While the main functionality is complete, I didn’t focus heavily on **Tailwind
 3. **One-to-Many Relationship**: To demonstrate data modeling, I created a `My List` collection, where each saved movie is stored with a reference to the user who saved it. This represents a **one-to-many relationship**:
    - Since each user may have an infinite number of saved movies, saved movies are **not embedded directly on the user document**. Instead, each saved movie document contains a reference to the user who saved it.
    - This approach helps avoid issues with MongoDB's document size limit and keeps the data structure flexible.
+  
+4. **Schema**:
+   - There is no particular schema, as this flexibility is one og the things I love about MongoDB, but I've tried sticking to a cirtain structure to avoid messy data.
+   - I have also demonstrated the use of **projection** and the **aggregation** framework to optimize datafetching and limit the amount of data that is sent over the wire.
 
-4. **Considerations for Scalability**:
+
+5. **Considerations for Scalability**:
    - This approach does have potential inefficiencies, especially if the user base grows infinitely. A more scalable solution would involve **sharding** the `My List` collection by `userId`. However, due to the small scale of this project and my limited experience with sharding, I have opted not to implement this.
 
 ## Technologies Used
