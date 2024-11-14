@@ -1,7 +1,10 @@
-import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { PlusCircleIcon } from "@heroicons/react/24/solid";
 import { PlayIcon } from "@heroicons/react/24/solid";
 import { Movie } from "../types";
 import { useNavigate } from "react-router-dom";
+import useMyList from "../hooks/useMyList";
+import { useSelector } from "react-redux";
+import { RootState } from "../app/store";
 
 const MovieCard = ({
   movie,
@@ -11,6 +14,9 @@ const MovieCard = ({
   lastMovieRef: ((node: HTMLDivElement) => void) | null;
 }) => {
   const { poster, title, plot, genres, runtime, _id } = movie;
+
+  const { user } = useSelector((state: RootState) => state.user.value);
+  const { addToMyList } = useMyList(user.id);
 
   const navigate = useNavigate();
 
@@ -70,13 +76,16 @@ const MovieCard = ({
           <div className="flex flex-row items-center gap-3">
             <button
               className="cursor-pointer w-6 h-6 lg:w-10 lg:h-10 bg-white rounded-full flex justify-center items-center transition hover:bg-neutral-300"
-              onClick={() => navigate(`/movies/watch/${_id}`)}
+              onClick={() => navigate(`browse/movies/watch/${_id}`)}
             >
               <PlayIcon className="text-black w-4 lg:w-6" />
             </button>
-            <div className="cursor-pointer ml-auto group/item w-6 h-6 lg:w-10 lg:h-10 border-white border-2 rounded-full flex justify-center items-center transition hover:border-neutral-300">
-              <ChevronDownIcon className="text-white group-hover/item:text-neutral-300 w-4 lg:w-6" />
-            </div>
+            <button
+              onClick={() => addToMyList(_id)}
+              className="cursor-pointer ml-auto group/item w-6 h-6 lg:w-10 lg:h-10 border-white border-2 rounded-full flex justify-center items-center transition hover:border-neutral-300"
+            >
+              <PlusCircleIcon className="text-white group-hover/item:text-neutral-300 w-4 lg:w-6" />
+            </button>
           </div>
           <p className="text-white font-semibold mt-4 text-2xl mb-3">{title}</p>
           <p className="text-gray-400 text-sm">{plot}</p>

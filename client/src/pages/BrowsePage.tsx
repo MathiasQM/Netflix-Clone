@@ -33,7 +33,7 @@ export default function BrowsePage() {
       <Billboard />
       <div className="pb-5 ">
         {error && <p>{error}</p>}
-        {data && <MovieList movies={data} lastMovieRef={lastMovieRef} />}
+        {data && <MovieList movies={data} lastMovieRef={lastMovieRef} listTitle="My List" />}
         {loading ? <LoadingCards /> : null}
       </div>
     </div>

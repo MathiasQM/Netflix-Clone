@@ -69,4 +69,54 @@ router.get("/watch/:id", (req, res, next) => {
     });
 });
 
+router.get("/mylist/:id", async (req, res) => {
+  let myList = [];
+  await db
+    .getDb()
+    .db()
+    .collection("mylist")
+    .find({ userId: req.params.id })
+    .forEach((savedMovieDoc) => {
+      myList.push(savedMovieDoc);
+    })
+    .then(() => {
+      res.status(200).json({
+        myList,
+        hasMore: false,
+      });
+    });
+});
+
+router.get("/mylist/add/:id", async (req, res) => {
+  try {
+    const userId = req.query.userId;
+    const movieId = req.params.id;
+    // Find the movie document by ID
+    const movieDoc = await db
+      .getDb()
+      .db()
+      .collection("movies")
+      .findOne({ _id: new ObjectId(movieId) });
+
+    if (!movieDoc) {
+      return res.status(404).json({ message: "Movie not found" });
+    }
+
+    await db
+      .getDb()
+      .db()
+      .collection("mylist")
+      .updateOne(
+        { _id: new ObjectId(movieId) },
+        { $set: { ...movieDoc, userId, savedAt: new Date() } },
+        { upsert: true }
+      );
+
+    return res.status(200).json({ message: "Movie added to My List successfully" });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "An error occurred" });
+  }
+});
+
 module.exports = router;

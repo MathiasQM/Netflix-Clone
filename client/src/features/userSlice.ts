@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface UserState {
   value: {
+    id: string;
     user: User | null;
     isLoading: boolean;
   };
@@ -14,6 +15,7 @@ interface User {
 
 const initialState: UserState = {
   value: {
+    id: "",
     user: null,
     isLoading: true,
   },
@@ -27,7 +29,7 @@ export const userSlice = createSlice({
       state.value.user = action.payload;
       state.value.isLoading = false;
     },
-    clearUser: () => {
+    clearUser: (state) => {
       state.value.user = null;
       state.value.isLoading = false;
     },

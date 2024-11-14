@@ -61,6 +61,7 @@ const useAuth = () => {
 
       dispatch(
         setUser({
+          id: user._id,
           email: user.email,
           name: user.name,
         })
@@ -70,7 +71,12 @@ const useAuth = () => {
     }
   };
 
-  return { signUp, login, fetchUser };
+  const logout = () => {
+    cookie.remove("session_token");
+    return dispatch(clearUser());
+  };
+
+  return { signUp, login, fetchUser, logout };
 };
 
 export default useAuth;
