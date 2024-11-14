@@ -27,12 +27,13 @@ While the main functionality is complete, I didn’t focus heavily on **Tailwind
 5. **Considerations for Scalability**:
    - This approach does have potential inefficiencies, especially if the user base grows infinitely. A more scalable solution would involve **sharding** the `My List` collection by `userId`. However, due to the small scale of this project and my limited experience with sharding, I have opted not to implement this.
 
-## Technologies Used
+## Main Technologies Used
 
 - **React**: Frontend framework for building interactive UIs.
 - **MongoDB**: NoSQL database used to store user data, movies, and saved lists.
 - **TypeScript**: Adds static typing to JavaScript, helping improve code quality and reliability.
 - **TailwindCSS**: Basic styling, although not heavily focused in this demo.
+- **Express**: For a basic backend.
 
 ## Getting Started
 
