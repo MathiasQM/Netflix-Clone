@@ -3,6 +3,7 @@ import Input from "../components/Input";
 import NavBar from "../components/NavBar";
 import { useForm, SubmitHandler, UseFormRegister, FieldErrors } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export type Inputs = {
   email: string;
@@ -33,23 +34,40 @@ export default function LoginPage() {
   } = useForm<Inputs>();
 
   const [variant, setVariant] = useState(Variant.LOG_IN);
+  const [authError, setAuthError] = useState("");
+
   const { login, signUp } = useAuth();
+  const navigate = useNavigate();
+
   const onSubmit: SubmitHandler<Inputs> = async ({ password, email, name }) => {
-    console.log(password, email, name);
-    if (variant === Variant.SIGN_UP) {
-      const response = await signUp({
-        email,
-        password,
-        name,
-      });
-      console.log(response);
-    } else {
-      const response = await login({
-        email,
-        password,
-      });
-      console.log(response);
+    try {
+      if (variant === Variant.SIGN_UP) {
+        const response = await signUp({
+          email,
+          password,
+          name,
+        });
+        console.log(response);
+      } else {
+        const response = await login({
+          email,
+          password,
+        });
+        console.log(response);
+      }
+      setAuthError("");
+      navigate("/browse");
+    } catch (error: any) {
+      console.log(error);
+      setAuthError(error.response.data.errors.msg);
     }
+  };
+
+  const handleChangeAuthVariant = () => {
+    if (variant === Variant.LOG_IN) setVariant(Variant.SIGN_UP);
+    else setVariant(Variant.LOG_IN);
+
+    setAuthError("");
   };
 
   return (
@@ -91,14 +109,15 @@ export default function LoginPage() {
                 }
               />
               <input type="submit" className="bg-red-400 py-3 text-white rounded-md  w-full mt-10 hover:bg-red-700" />
+              {authError && <p className="text-red-600">{authError}</p>}
             </form>
           </AuthFormContext.Provider>
           {variant === Variant.LOG_IN ? (
-            <p className="text-neutral-500 mt-12" onClick={() => setVariant(Variant.SIGN_UP)}>
+            <p className="text-neutral-500 mt-12" onClick={handleChangeAuthVariant}>
               <span className="text-white ml-1 hover:underline cursor-pointer">First time using Netflix?</span>
             </p>
           ) : (
-            <p className="text-neutral-500 mt-12" onClick={() => setVariant(Variant.LOG_IN)}>
+            <p className="text-neutral-500 mt-12" onClick={handleChangeAuthVariant}>
               <span className="text-white ml-1 hover:underline cursor-pointer">Already have an account?</span>
             </p>
           )}

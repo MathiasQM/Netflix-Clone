@@ -57,9 +57,10 @@ router.post(
 );
 
 router.post("/login", async (req, res) => {
-  const { email, password, name } = req.body;
+  const { email, password } = req.body;
 
   const user = await db.getDb().db().collection("users").findOne({ email: email });
+  console.log(user);
 
   if (!user) {
     return res.status(400).json({
