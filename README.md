@@ -39,10 +39,10 @@ While the main functionality is complete, I didn’t focus heavily on **Tailwind
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/priceshape-recruitment-project.git
+   git clone https://github.com/mathiasqm/Netflix-Clone.git
    cd priceshape-recruitment-project
    ```
-2. **Install dependencies**:
+2. **Install dependencies in both client and server directory**:
    ```bash
    npm install
    ```
@@ -51,9 +51,10 @@ While the main functionality is complete, I didn’t focus heavily on **Tailwind
 MONGODB_URI=<your-mongodb-uri>
 JSON_WEB_TOKEN_SECRET=<your-jwt-secret>
 
-4. **Run the project**:
+4. **Run the project from the client and server directory**:
    ```bash
    npm run dev
+   npm start:dev
    ```
 
 5. **Ensure you have the sample_mflix database in MongoDB Atlas. This project uses the sample data provided by MongoDB.**:
