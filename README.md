@@ -40,7 +40,6 @@ While the main functionality is complete, I didn’t focus heavily on **Tailwind
 1. **Clone the Repository**:
    ```bash
    git clone https://github.com/mathiasqm/Netflix-Clone.git
-   cd priceshape-recruitment-project
    ```
 2. **Install dependencies in both client and server directory**:
    ```bash
