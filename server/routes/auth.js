@@ -24,7 +24,6 @@ router.post(
         errors: errors.array(),
       });
     }
-    console.log(req.body);
 
     const { email, password, name } = req.body;
 
@@ -47,8 +46,6 @@ router.post(
         { $set: { email, password: hashedPassword, name } },
         { upsert: true, returnDocument: "after", projection: { email: 1, name: 1 } }
       );
-
-    console.log(newUser);
 
     const token = await jwt.sign(newUser, process.env.JSON_WEB_TOKEN_SECRET, { expiresIn: 36000000 });
 

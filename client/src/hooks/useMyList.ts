@@ -52,7 +52,6 @@ const useMyList = (_id: ObjectId) => {
       const res = await axios.get(`http://localhost:8080/movies/mylist/add/${id}`, {
         params: { userId: _id },
       });
-      console.log(res);
     } catch (err) {
       console.error(err);
       dispatch({ type: ActionType.FAILED, payload: "Could not add to list" });
@@ -61,15 +60,12 @@ const useMyList = (_id: ObjectId) => {
 
   const removeFromMyList = async (id: string) => {
     try {
-      console.log(id);
       dispatch({ type: ActionType.LOADING });
       const res = await axios.post(`http://localhost:8080/movies/mylist/remove/${id}`);
       if (res.status === 200) {
-        console.log(data);
         const updatedList = data?.filter((movie) => movie._id !== id) as Movie[];
         dispatch({ type: ActionType.SUCCESS, payload: updatedList });
       }
-      console.log(res);
     } catch (err) {
       console.error(err);
       dispatch({ type: ActionType.FAILED, payload: "Could not add to list" });

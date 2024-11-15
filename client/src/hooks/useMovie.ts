@@ -65,7 +65,6 @@ const useMovie = (_id: ObjectId) => {
       const res = await axios.get(`http://localhost:8080/movies/watch/${_id}`);
       dispatch({ type: ActionType.SUCCCESS, payload: res.data });
     } catch (err) {
-      console.log(err);
       dispatch({ type: ActionType.FAILED, payload: "Something went wrong" });
     }
   };

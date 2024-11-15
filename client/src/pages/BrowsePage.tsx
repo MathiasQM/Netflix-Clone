@@ -19,7 +19,6 @@ export default function BrowsePage() {
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
           setOffset(offset + 12);
-          console.log("Intersecting - loading more movies");
         }
       });
 

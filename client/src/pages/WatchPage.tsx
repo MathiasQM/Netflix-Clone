@@ -8,12 +8,11 @@ export default function WatchPage() {
   const navigate = useNavigate();
 
   const { data, loading, error } = useMovie(params.id);
-  console.log(data);
 
   if (loading) return <p>Loading...</p>;
   if (error || !data) return <p>{error}</p>;
 
-  const { title, poster, fullplot, genres, runtime, year } = data;
+  const { title, poster, fullplot, runtime, year } = data;
 
   return (
     <div className="h-screen w-screem bg-black">

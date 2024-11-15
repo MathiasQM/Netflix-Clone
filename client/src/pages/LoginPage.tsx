@@ -47,18 +47,15 @@ export default function LoginPage() {
           password,
           name,
         });
-        console.log(response);
       } else {
         const response = await login({
           email,
           password,
         });
-        console.log(response);
       }
       setAuthError("");
       navigate("/browse");
     } catch (error: any) {
-      console.log(error);
       setAuthError(error.response.data.errors.msg);
     }
   };

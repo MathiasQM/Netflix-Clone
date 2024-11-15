@@ -36,7 +36,6 @@ router.get("/list/popular", (req, res, next) => {
       { $limit: limit + 1 }, // Henter et document ekstra for at tjekke om der er flere dokumenter
     ])
     .forEach((movieDoc) => {
-      console.log(movieDoc);
       movies.push(movieDoc);
     })
     .then(() => {
@@ -121,16 +120,11 @@ router.get("/mylist/add/:id", async (req, res) => {
 
 router.post("/mylist/remove/:id", async (req, res) => {
   try {
-    console.log("helloooo");
-    console.log(req.params.id);
-
-    // Find the movie document by ID
     const deletedMovieDoc = await db
       .getDb()
       .db()
       .collection("mylist")
       .deleteOne({ _id: new ObjectId(req.params.id) });
-    console.log(deletedMovieDoc);
 
     if (!deletedMovieDoc) {
       return res.status(404).json({ message: "Movie not found" });

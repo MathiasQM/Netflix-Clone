@@ -14,7 +14,6 @@ const useAuth = () => {
     });
 
     const { user, token } = response.data;
-    console.log(user);
     cookie.set("session_token", token);
     dispatch(
       setUser({
@@ -53,7 +52,6 @@ const useAuth = () => {
         },
       });
       const user = response.data;
-      console.log(user);
 
       if (!user) {
         return dispatch(clearUser());
