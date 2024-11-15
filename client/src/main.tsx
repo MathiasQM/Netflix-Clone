@@ -21,7 +21,7 @@ const router = createBrowserRouter(
       <Route path="/browse" element={<PrivateRoutes />}>
         <Route path="/browse" element={<BrowsePage />} />
         <Route path="/browse/movies/mylist/:id" element={<MyListPage />} />
-        <Route path="browse/movies/watch/:id" element={<WatchPage />} />
+        <Route path="/browse/movies/watch/:id" element={<WatchPage />} />
       </Route>
     </Route>
   )

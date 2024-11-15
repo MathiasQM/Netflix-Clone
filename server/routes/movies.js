@@ -75,7 +75,7 @@ router.get("/mylist/:id", async (req, res) => {
     .getDb()
     .db()
     .collection("mylist")
-    .find({ userId: req.params.id })
+    .find({ userId: req.params.id }, { projection: { plot: 1, poster: 1, title: 1, runtime: 1, genres: 1 } })
     .forEach((savedMovieDoc) => {
       myList.push(savedMovieDoc);
     })
@@ -113,6 +113,30 @@ router.get("/mylist/add/:id", async (req, res) => {
       );
 
     return res.status(200).json({ message: "Movie added to My List successfully" });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "An error occurred" });
+  }
+});
+
+router.post("/mylist/remove/:id", async (req, res) => {
+  try {
+    console.log("helloooo");
+    console.log(req.params.id);
+
+    // Find the movie document by ID
+    const deletedMovieDoc = await db
+      .getDb()
+      .db()
+      .collection("mylist")
+      .deleteOne({ _id: new ObjectId(req.params.id) });
+    console.log(deletedMovieDoc);
+
+    if (!deletedMovieDoc) {
+      return res.status(404).json({ message: "Movie not found" });
+    }
+
+    return res.status(200).json({ message: "Movie Removed to My List successfully" });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "An error occurred" });

@@ -4,10 +4,12 @@ import MovieCard from "./MovieCard";
 export default function MovieList({
   movies,
   listTitle,
+  removeFromMyList,
   lastMovieRef,
 }: {
   movies: Movie[];
   listTitle: string;
+  removeFromMyList: (id: string) => void;
   lastMovieRef?: (node: HTMLDivElement) => void;
 }) {
   return (
@@ -22,6 +24,7 @@ export default function MovieList({
           <MovieCard
             movie={movie}
             key={movie._id}
+            removeFromMyList={removeFromMyList}
             lastMovieRef={movies.length === index + 1 && lastMovieRef ? lastMovieRef : null}
           />
         ))}

@@ -59,6 +59,23 @@ const useMyList = (_id: ObjectId) => {
     }
   };
 
+  const removeFromMyList = async (id: string) => {
+    try {
+      console.log(id);
+      dispatch({ type: ActionType.LOADING });
+      const res = await axios.post(`http://localhost:8080/movies/mylist/remove/${id}`);
+      if (res.status === 200) {
+        console.log(data);
+        const updatedList = data?.filter((movie) => movie._id !== id) as Movie[];
+        dispatch({ type: ActionType.SUCCESS, payload: updatedList });
+      }
+      console.log(res);
+    } catch (err) {
+      console.error(err);
+      dispatch({ type: ActionType.FAILED, payload: "Could not add to list" });
+    }
+  };
+
   const fetchMyList = async () => {
     dispatch({ type: ActionType.LOADING });
     try {
@@ -74,7 +91,7 @@ const useMyList = (_id: ObjectId) => {
     fetchMyList();
   }, []);
 
-  return { data, loading, error, addToMyList };
+  return { data, loading, error, addToMyList, removeFromMyList };
 };
 
 export default useMyList;
